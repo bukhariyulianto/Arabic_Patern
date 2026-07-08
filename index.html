@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arabic Pattern Matrix™ - Interactive Neural Learning System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        arabic: ['Amiri', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981', // Emerald
+                            600: '#059669',
+                            900: '#064e3b',
+                        },
+                        cyber: {
+                            dark: '#0B0F19',
+                            card: '#131B2E',
+                            border: '#1E293B',
+                            accent: '#F59E0B', // Amber
+                            purple: '#8B5CF6', // Purple Accent
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-subtle': 'bounceSubtle 2s infinite',
+                        'sparkle': 'sparkle 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        bounceSubtle: {
+                            '0%, 100%': { transform: 'translateY(-2%)', 'animation-timing-function': 'cubic-bezier(0.8,0,1,1)' },
+                            '50%': { transform: 'none', 'animation-timing-function': 'cubic-bezier(0,0,0.2,1)' }
+                        },
+                        sparkle: {
+                            '0%': { transform: 'scale(0.96); opacity: 0; filter: blur(4px);' },
+                            '100%': { transform: 'scale(1); opacity: 1; filter: blur(0);' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0B0F19;
+            border-radius: 99px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 99px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #10B981;
+        }
+        .glow-green {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+        }
+        .glow-amber {
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-cyber-dark/85 backdrop-blur-md border-b border-slate-800/80 px-4 py-3 sm:px-6">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand & Mobile Toggle Menu -->
+            <div class="flex items-center gap-3">
+                <!-- Hamburger Menu Button for Mobile -->
+                <button onclick="toggleSidebar(true)" class="lg:hidden p-2 bg-slate-800/80 hover:bg-slate-750 border border-slate-700/50 rounded-xl text-slate-400 hover:text-emerald-400 transition" title="Buka Navigasi">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+
+                <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 rounded-xl shadow-lg shadow-brand-500/20">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-sm sm:text-base font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-amber-300 bg-clip-text text-transparent">
+                        ARABIC PATTERN MATRIX™
+                    </h1>
+                    <p class="text-[9px] text-slate-400 font-medium hidden sm:block">Arabic Neural Pattern System (ANPS) - Abad 21</p>
+                </div>
+            </div>
+
+            <!-- Speech Config & Stats Badge Group -->
+            <div class="flex items-center gap-3">
+                <!-- Speed TTS Selector -->
+                <div class="hidden md:flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1 rounded-full text-xs">
+                    <span class="text-slate-400 font-bold">Speed:</span>
+                    <input type="range" id="speech-rate" min="0.3" max="1" step="0.1" value="0.7" class="w-16 accent-emerald-500" title="Atur Kecepatan Audio">
+                    <span id="rate-val" class="text-emerald-400 font-bold">0.7x</span>
+                </div>
+
+                <!-- Level Indicator -->
+                <div class="flex items-center gap-1.5 bg-slate-800/80 border border-slate-700/50 px-2.5 py-1 rounded-full shadow-inner">
+                    <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">LVL</span>
+                    <span id="level-badge" class="text-emerald-400 font-black text-xs bg-brand-900/50 px-2 py-0.5 rounded-full border border-brand-500/30">1</span>
+                </div>
+
+                <!-- XP Indicator -->
+                <div class="flex items-center gap-1 bg-slate-800/80 border border-slate-700/50 px-2.5 py-1 rounded-full shadow-inner">
+                    <span class="text-amber-400 text-xs">⚡</span>
+                    <span id="xp-counter" class="font-extrabold text-slate-100 text-xs">0 XP</span>
+                </div>
+
+                <!-- Audio System Status -->
+                <button onclick="testSpeechEngine()" class="p-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 hover:text-emerald-400 transition border border-slate-700 text-xs" title="Tes Audio">
+                    🔊 Tes
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0"></div>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 items-start relative">
+        
+        <!-- App Sidebar (Fully responsive static-to-drawer container) -->
+        <aside id="app-sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-72 lg:w-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out bg-cyber-card border-r lg:border border-slate-800 lg:rounded-3xl p-5 shadow-2xl lg:shadow-xl flex flex-col gap-5 h-full lg:h-auto overflow-y-auto lg:col-span-1">
+            
+            <!-- Close Button & Header for Mobile Sidebar -->
+            <div class="flex items-center justify-between lg:hidden border-b border-slate-800/60 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">🗺️</span>
+                    <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider">Pembelajaran</h3>
+                </div>
+                <button onclick="toggleSidebar(false)" class="p-1.5 bg-slate-800 hover:bg-rose-950/50 rounded-xl text-slate-400 hover:text-rose-400 transition border border-slate-700/50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Master Roadmap Tab -->
+            <div>
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5">Progress Map</h3>
+                <button onclick="switchTab('roadmap')" id="btn-tab-roadmap" class="tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-300 bg-brand-500/10 border-l-4 border-brand-500 text-emerald-400 text-left relative overflow-hidden group">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-base group-hover:scale-110 transition-transform duration-300">🗺️</span>
+                        <span class="text-xs font-bold">50-Level Journey</span>
+                    </div>
+                    <span class="text-[9px] bg-brand-500 text-white px-2 py-0.5 rounded-full font-black">START</span>
+                </button>
+            </div>
+
+            <!-- Interactive Chapters of Foundations (Vertical Navigation stack for both viewports) -->
+            <div class="border-t border-slate-800/80 pt-4 lg:pt-0 lg:border-t-0">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Interactive Modules</h3>
+                <div class="flex flex-col gap-2" id="chapter-list">
+                    
+                    <!-- Chapter 1 Button -->
+                    <button onclick="switchTab('bab1')" id="btn-tab-bab1" class="tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-300 bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 text-left border-l-4 border-l-transparent">
+                        <div class="flex items-center gap-2.5">
+                            <span class="p-1 bg-slate-800 text-emerald-400 rounded-lg text-[9px] font-bold">M-1</span>
+                            <div>
+                                <h4 class="text-xs font-bold leading-tight">Brain Awakening</h4>
+                                <span class="text-[9px] text-slate-500 block leading-tight">Membaca Pola Visual</span>
+                            </div>
+                        </div>
+                        <span class="status-icon text-xs flex items-center justify-center opacity-70">🧠</span>
+                    </button>
+
+                    <!-- Chapter 2 Button -->
+                    <button onclick="switchTab('bab2')" id="btn-tab-bab2" class="tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-300 bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 text-left border-l-4 border-l-transparent">
+                        <div class="flex items-center gap-2.5">
+                            <span class="p-1 bg-slate-800 text-emerald-400 rounded-lg text-[9px] font-bold">M-2</span>
+                            <div>
+                                <h4 class="text-xs font-bold leading-tight">Huruf Adalah Wajah</h4>
+                                <span class="text-[9px] text-slate-500 block leading-tight">Alif Positions & Drills</span>
+                            </div>
+                        </div>
+                        <span class="status-icon text-xs flex items-center justify-center opacity-70">👤</span>
+                    </button>
+
+                    <!-- Chapter 3 Button -->
+                    <button onclick="switchTab('bab3')" id="btn-tab-bab3" class="tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-300 bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 text-left border-l-4 border-l-transparent">
+                        <div class="flex items-center gap-2.5">
+                            <span class="p-1 bg-slate-800 text-emerald-400 rounded-lg text-[9px] font-bold">M-3</span>
+                            <div>
+                                <h4 class="text-xs font-bold leading-tight">Letter Families</h4>
+                                <span class="text-[9px] text-slate-500 block leading-tight">Keluarga Perahu (Boat)</span>
+                            </div>
+                        </div>
+                        <span class="status-icon text-xs flex items-center justify-center opacity-70">🚤</span>
+                    </button>
+
+                    <!-- Chapter 4 Button -->
+                    <button onclick="switchTab('bab4')" id="btn-tab-bab4" class="tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-300 bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 text-left border-l-4 border-l-transparent">
+                        <div class="flex items-center gap-2.5">
+                            <span class="p-1 bg-slate-800 text-emerald-400 rounded-lg text-[9px] font-bold">M-4</span>
+                            <div>
+                                <h4 class="text-xs font-bold leading-tight">Chunk Recognition</h4>
+                                <span class="text-[9px] text-slate-500 block leading-tight">Siluet Kata Pertama</span>
+                            </div>
+                        </div>
+                        <span class="status-icon text-xs flex items-center justify-center opacity-70">📦</span>
+                    </button>
+
+                    <!-- Chapter 5 Button -->
+                    <button onclick="switchTab('bab5')" id="btn-tab-bab5" class="tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-300 bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 text-left border-l-4 border-l-transparent">
+                        <div class="flex items-center gap-2.5">
+                            <span class="p-1 bg-slate-800 text-emerald-400 rounded-lg text-[9px] font-bold">M-5</span>
+                            <div>
+                                <h4 class="text-xs font-bold leading-tight">Neural Root Trees</h4>
+                                <span class="text-[9px] text-slate-500 block leading-tight">Akar Kata (ك ت ب)</span>
+                            </div>
+                        </div>
+                        <span class="status-icon text-xs flex items-center justify-center opacity-70">🌳</span>
+                    </button>
+
+                    <!-- Chapter 6 Button -->
+                    <button onclick="switchTab('bab6')" id="btn-tab-bab6" class="tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-300 bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 text-left border-l-4 border-l-transparent">
+                        <div class="flex items-center gap-2.5">
+                            <span class="p-1 bg-slate-800 text-emerald-400 rounded-lg text-[9px] font-bold">M-6</span>
+                            <div>
+                                <h4 class="text-xs font-bold leading-tight">Pattern Discovery</h4>
+                                <span class="text-[9px] text-slate-500 block leading-tight">Mata Pencari Pola Sharaf</span>
+                            </div>
+                        </div>
+                        <span class="status-icon text-xs flex items-center justify-center opacity-70">🧩</span>
+                    </button>
+
+                    <!-- Chapter 7 Button -->
+                    <button onclick="switchTab('bab7')" id="btn-tab-bab7" class="tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-300 bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 text-left border-l-4 border-l-transparent">
+                        <div class="flex items-center gap-2.5">
+                            <span class="p-1 bg-slate-800 text-emerald-400 rounded-lg text-[9px] font-bold">M-7</span>
+                            <div>
+                                <h4 class="text-xs font-bold leading-tight">Visual Phrases</h4>
+                                <span class="text-[9px] text-slate-500 block leading-tight">Frasa Berulang</span>
+                            </div>
+                        </div>
+                        <span class="status-icon text-xs flex items-center justify-center opacity-70">🔗</span>
+                    </button>
+
+                    <!-- Chapter 8 Button -->
+                    <button onclick="switchTab('bab8')" id="btn-tab-bab8" class="tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-300 bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 text-left border-l-4 border-l-transparent">
+                        <div class="flex items-center gap-2.5">
+                            <span class="p-1 bg-slate-800 text-emerald-400 rounded-lg text-[9px] font-bold">M-8</span>
+                            <div>
+                                <h4 class="text-xs font-bold leading-tight">Sentence Radar</h4>
+                                <span class="text-[9px] text-slate-500 block leading-tight">Pola Kalimat Alami</span>
+                            </div>
+                        </div>
+                        <span class="status-icon text-xs flex items-center justify-center opacity-70">⚡</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Achievements Trophies Frame (Visible in Sidebar stack) -->
+            <div class="border-t border-slate-800/80 pt-4 mt-auto">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Trophy Room</h3>
+                <div class="grid grid-cols-3 gap-2">
+                    <div id="badge-1" class="bg-slate-900/60 border border-slate-800 rounded-xl p-2.5 text-center transition filter grayscale opacity-45 hover:grayscale-0 hover:opacity-100 cursor-help" title="Menyelesaikan Module 1: Brain Awakening">
+                        <span class="text-2xl block mb-1">🏅</span>
+                        <p class="text-[9px] font-bold text-emerald-400 leading-tight">Awakener</p>
+                    </div>
+                    <div id="badge-2" class="bg-slate-900/60 border border-slate-800 rounded-xl p-2.5 text-center transition filter grayscale opacity-45 hover:grayscale-0 hover:opacity-100 cursor-help" title="Mencapai Akurasi Tinggi di Eye Scanner Game">
+                        <span class="text-2xl block mb-1">🎯</span>
+                        <p class="text-[9px] font-bold text-amber-400 leading-tight">Scanner</p>
+                    </div>
+                    <div id="badge-3" class="bg-slate-900/60 border border-slate-800 rounded-xl p-2.5 text-center transition filter grayscale opacity-45 hover:grayscale-0 hover:opacity-100 cursor-help" title="Menyelesaikan Semua Materi Level 1 & Boss Quiz">
+                        <span class="text-2xl block mb-1">👑</span>
+                        <p class="text-[9px] font-bold text-pink-400 leading-tight">Pattern Lord</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Display Content (Dynamic Modules) -->
+        <section class="lg:col-span-3 space-y-6">
+            
+            <!-- Floating XP Effect element -->
+            <div id="floating-xp" class="fixed top-12 right-24 transform translate-y-10 opacity-0 bg-brand-500 text-white font-extrabold px-3 py-1 rounded-full text-sm transition-all duration-500 pointer-events-none z-50">
+                +10 XP
+            </div>
+
+            <!-- TAB: ROADMAP (Welcome Landing Screen) -->
+            <div id="content-roadmap" class="content-view space-y-6 animate-sparkle">
+                <!-- Premium Hero Section -->
+                <div class="bg-gradient-to-r from-emerald-950/40 via-cyber-card to-cyber-card border border-brand-500/20 p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-2xl">
+                    <div class="absolute -right-16 -top-16 w-48 h-48 bg-brand-500/10 rounded-full blur-3xl"></div>
+                    <div class="relative z-10 max-w-2xl">
+                        <div class="inline-flex items-center gap-2 bg-brand-500/10 border border-brand-500/30 text-emerald-400 px-3 py-1 rounded-full text-xs font-bold mb-4 uppercase tracking-wider">
+                            🚀 Metodologi Pembelajaran Baru
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold leading-tight tracking-tight mb-3 text-white">
+                            Belajar Arab Gundul Sesuai Cara Kerja <span class="bg-gradient-to-r from-emerald-400 to-amber-300 bg-clip-text text-transparent">Otak Alami</span>
+                        </h2>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Buku tata bahasa klasik menuntut Anda menghafal aturan rumit terlebih dahulu sebelum membaca. Di <strong>Arabic Pattern Matrix™</strong>, Anda akan dilatih menyimpulkan pola sintaksis secara natural seperti balita belajar bahasa ibunya.
+                        </p>
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <button onclick="switchTab('bab1')" class="bg-brand-500 hover:bg-brand-600 active:scale-95 transition text-white text-xs sm:text-sm font-black px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg shadow-brand-500/20">
+                                Mulai Dari Modul 1
+                                <span>⚡</span>
+                            </button>
+                            <a href="#matrix-roadmap" class="bg-slate-800/80 hover:bg-slate-700/80 transition border border-slate-700 text-slate-300 text-xs sm:text-sm font-bold px-5 py-3 rounded-xl">
+                                Lihat Kurikulum Lengkap
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gamified Progress Roadmap Section -->
+                <div id="matrix-roadmap" class="bg-cyber-card border border-slate-800 rounded-3xl p-6 shadow-xl">
+                    <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-widest mb-6 flex items-center gap-2">
+                        <span>🗺️</span> 50-Level Gamified Journey Tracker (Level 1 Foundation)
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Card: Lvl 1 (Active) -->
+                        <div class="p-5 rounded-2xl bg-gradient-to-b from-slate-800/50 to-slate-900 border-2 border-brand-500 relative overflow-hidden shadow-lg glow-green">
+                            <span class="absolute top-3 right-3 text-xs font-extrabold text-brand-400">ACTIVE</span>
+                            <div class="text-3xl mb-3">🧠</div>
+                            <h4 class="text-sm font-black text-white">Level 1: Neural Pattern Recognition</h4>
+                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Fokus pada pembuatan koneksi sinapsis baru di otak untuk menangkap pola siluet kata gundul tanpa mengeja sama sekali.</p>
+                            <div class="mt-4">
+                                <div class="flex justify-between text-[10px] font-bold text-slate-400 mb-1">
+                                    <span>MODUL COMPLETED</span>
+                                    <span id="level-progress-pct">0%</span>
+                                </div>
+                                <div class="w-full bg-slate-850 h-2 rounded-full overflow-hidden border border-slate-800">
+                                    <div class="bg-brand-500 h-full w-[0%] transition-all duration-500" id="roadmap-bar-1"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card: Lvl 2 (Locked) -->
+                        <div class="p-5 rounded-2xl bg-slate-900/40 border border-slate-800/80 relative opacity-60">
+                            <span class="absolute top-3 right-3 text-slate-500">🔒 Lvl 5</span>
+                            <div class="text-3xl mb-3">📦</div>
+                            <h4 class="text-sm font-black text-slate-400">Level 2: Visual Chunk Mastery</h4>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Mempelajari unit frasa ganda, penanda predikat, serta visualisasi pola kata dari rumpun 300 akar kata berfrekuensi tinggi.</p>
+                        </div>
+
+                        <!-- Card: Lvl 3 (Locked) -->
+                        <div class="p-5 rounded-2xl bg-slate-900/40 border border-slate-800/80 relative opacity-60">
+                            <span class="absolute top-3 right-3 text-slate-500">🔒 Lvl 15</span>
+                            <div class="text-3xl mb-3">👑</div>
+                            <h4 class="text-sm font-black text-slate-400">Level 3: Kitab Kuning Reading</h4>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Pengenalan teks klasik non-harakat secara langsung. Mengonversi teks Fathul Qorib dan Bulughul Maram secara visual.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: MODULE 1 (Brain Awakening) -->
+            <div id="content-bab1" class="content-view hidden space-y-6 animate-sparkle">
+                <div class="bg-gradient-to-r from-emerald-950/40 to-slate-900 border border-slate-800 p-6 rounded-3xl">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest block mb-1">Module 01</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Otakmu Sudah Bisa Membaca Arab Gundul</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Pembuktian empiris bahwa otak membaca bentuk siluet secara instan, bukan mengeja.</p>
+                </div>
+
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 space-y-4">
+                    <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <span>🧠</span> Mengapa Kita Bisa Membaca "ALFAMART"?
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Saat berkendara dan sekilas melihat logo minimarket, mata Anda tidak mengeja "A-L-F-A...". Anda langsung mengenali bentuknya sebagai satu paket gambar utuh. Di modul ini, kita akan melatih otak Anda melihat kata-kata Arab dengan cara yang sama.
+                    </p>
+                    <div class="p-4 bg-slate-900 border border-slate-800 rounded-2xl text-center">
+                        <span class="text-xs font-extrabold text-slate-500 uppercase tracking-widest block mb-2">PRINSIP APRE™:</span>
+                        <p class="text-sm font-bold text-brand-400">👀 Lihat → 🔁 Ulangi → 🧠 Kenali → ⚡ Otomatis</p>
+                    </div>
+                </div>
+
+                <!-- Visual Test: Pattern Hunter Game -->
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider">🎯 Game: Pattern Hunter</h3>
+                        <span class="text-xs text-amber-400 font-bold">CARI KATA: "الله"</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Instruksi: Cari kata <span class="text-emerald-400 font-bold font-arabic text-lg cursor-pointer" onclick="speakArabic('الله')">الله 🔊</span> di antara barisan kata gundul di bawah dengan kecepatan mata kilat!</p>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                        <button onclick="checkHunter(this, false, 'كتاب')" class="p-4 bg-slate-900 border border-slate-800 rounded-2xl hover:bg-slate-800 transition active:scale-95 font-arabic text-2xl text-slate-300 flex justify-between items-center"><span>كتاب</span><span class="text-xs opacity-60">🔊</span></button>
+                        <button onclick="checkHunter(this, true, 'الله')" class="p-4 bg-slate-900 border border-slate-800 rounded-2xl hover:bg-slate-800 transition active:scale-95 font-arabic text-2xl text-slate-300 flex justify-between items-center"><span>الله</span><span class="text-xs opacity-60">🔊</span></button>
+                        <button onclick="checkHunter(this, false, 'رسول')" class="p-4 bg-slate-900 border border-slate-800 rounded-2xl hover:bg-slate-800 transition active:scale-95 font-arabic text-2xl text-slate-300 flex justify-between items-center"><span>رسول</span><span class="text-xs opacity-60">🔊</span></button>
+                        <button onclick="checkHunter(this, true, 'الله')" class="p-4 bg-slate-900 border border-slate-800 rounded-2xl hover:bg-slate-800 transition active:scale-95 font-arabic text-2xl text-slate-300 flex justify-between items-center"><span>الله</span><span class="text-xs opacity-60">🔊</span></button>
+                    </div>
+                    <p id="hunter-feedback" class="text-xs font-bold text-slate-500"></p>
+                </div>
+
+                <div class="flex justify-between items-center bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+                    <span class="text-xs text-slate-400 font-bold">Selesai Mempelajari Modul ini?</span>
+                    <button onclick="completeModule(1)" class="bg-brand-500 hover:bg-brand-600 transition text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2">
+                        Verifikasi Modul (+25 XP)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: MODULE 2 (Huruf Adalah Wajah) -->
+            <div id="content-bab2" class="content-view hidden space-y-6 animate-sparkle">
+                <div class="bg-gradient-to-r from-emerald-950/40 to-slate-900 border border-slate-800 p-6 rounded-3xl">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest block mb-1">Module 02</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Huruf Adalah Wajah (Posisi Alif)</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Memahami anatomi peletakan huruf alif di awal, tengah, dan akhir kata.</p>
+                </div>
+
+                <!-- Grid Visual Posisi -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-cyber-card border border-slate-800 p-5 rounded-2xl text-center flex flex-col items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-emerald-400 font-extrabold tracking-widest block mb-2">ALIF AWAL</span>
+                            <span class="font-arabic text-5xl block text-white my-3 cursor-pointer" onclick="speakArabic('أ')">أ 🔊</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">Berdiri tegak murni tanpa tersambung dengan huruf sebelumnya.</p>
+                    </div>
+                    <div class="bg-cyber-card border border-slate-800 p-5 rounded-2xl text-center flex flex-col items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-amber-400 font-extrabold tracking-widest block mb-2">ALIF TENGAH</span>
+                            <span class="font-arabic text-5xl block text-white my-3 cursor-pointer" onclick="speakArabic('ـاـ')">ـاـ 🔊</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">Hanya menyambung dengan huruf di sebelah kanannya.</p>
+                    </div>
+                    <div class="bg-cyber-card border border-slate-800 p-5 rounded-2xl text-center flex flex-col items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-purple-400 font-extrabold tracking-widest block mb-2">ALIF AKHIR</span>
+                            <span class="font-arabic text-5xl block text-white my-3 cursor-pointer" onclick="speakArabic('ـا')">ـا 🔊</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">Ekor sambungan di bagian kanan sebagai huruf penutup kata.</p>
+                    </div>
+                </div>
+
+                <!-- Latihan Visual Radar -->
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 space-y-4">
+                    <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider">🎯 Speed Drill: Alif Hunter</h3>
+                    <p class="text-xs text-slate-400">Temukan semua huruf alif <span class="text-emerald-400 font-bold">ا</span> yang tersebar pada deret di bawah ini:</p>
+                    
+                    <div class="flex flex-wrap gap-2 pt-2 justify-center">
+                        <button onclick="checkAlifHunter(this, true)" class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-xl font-arabic text-xl hover:border-brand-500 hover:text-brand-400 transition">ا</button>
+                        <button onclick="checkAlifHunter(this, false)" class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-xl font-arabic text-xl hover:border-brand-500 hover:text-brand-400 transition">ب</button>
+                        <button onclick="checkAlifHunter(this, false)" class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-xl font-arabic text-xl hover:border-brand-500 hover:text-brand-400 transition">ت</button>
+                        <button onclick="checkAlifHunter(this, true)" class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-xl font-arabic text-xl hover:border-brand-500 hover:text-brand-400 transition">ا</button>
+                        <button onclick="checkAlifHunter(this, false)" class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-xl font-arabic text-xl hover:border-brand-500 hover:text-brand-400 transition">ث</button>
+                        <button onclick="checkAlifHunter(this, true)" class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-xl font-arabic text-xl hover:border-brand-500 hover:text-brand-400 transition">ا</button>
+                    </div>
+                    <p id="alif-feedback" class="text-xs font-bold text-center"></p>
+                </div>
+
+                <div class="flex justify-between items-center bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+                    <span class="text-xs text-slate-400 font-bold">Selesai Mempelajari Modul ini?</span>
+                    <button onclick="completeModule(2)" class="bg-brand-500 hover:bg-brand-600 transition text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2">
+                        Verifikasi Modul (+25 XP)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: MODULE 3 (Letter Family System) -->
+            <div id="content-bab3" class="content-view hidden space-y-6 animate-sparkle">
+                <div class="bg-gradient-to-r from-emerald-950/40 to-slate-900 border border-slate-800 p-6 rounded-3xl">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest block mb-1">Module 03</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Letter Family System™ (Keluarga Perahu 🚤)</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Huruf Arab jauh lebih mudah dibaca jika kita melihat kemiripan struktur tubuh dasarnya.</p>
+                </div>
+
+                <!-- Boat Family Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    <div class="bg-cyber-card border border-slate-800 p-4 rounded-2xl text-center hover:border-emerald-500/40 transition cursor-pointer animate-pulse-slow" onclick="speakArabic('ب')">
+                        <span class="font-arabic text-3xl block text-white mb-1">ب 🔊</span>
+                        <p class="text-[10px] font-bold text-slate-500">1 Titik di Bawah</p>
+                    </div>
+                    <div class="bg-cyber-card border border-slate-800 p-4 rounded-2xl text-center hover:border-emerald-500/40 transition cursor-pointer" onclick="speakArabic('ت')">
+                        <span class="font-arabic text-3xl block text-white mb-1">ت 🔊</span>
+                        <p class="text-[10px] font-bold text-slate-500">2 Titik di Atas</p>
+                    </div>
+                    <div class="bg-cyber-card border border-slate-800 p-4 rounded-2xl text-center hover:border-emerald-500/40 transition cursor-pointer" onclick="speakArabic('ث')">
+                        <span class="font-arabic text-3xl block text-white mb-1">ث 🔊</span>
+                        <p class="text-[10px] font-bold text-slate-500">3 Titik di Atas</p>
+                    </div>
+                    <div class="bg-cyber-card border border-slate-800 p-4 rounded-2xl text-center hover:border-emerald-500/40 transition cursor-pointer" onclick="speakArabic('ن')">
+                        <span class="font-arabic text-3xl block text-white mb-1">ن 🔊</span>
+                        <p class="text-[10px] font-bold text-slate-500">1 Titik di Atas</p>
+                    </div>
+                    <div class="bg-cyber-card border border-slate-800 p-4 rounded-2xl text-center hover:border-emerald-500/40 transition cursor-pointer" onclick="speakArabic('ي')">
+                        <span class="font-arabic text-3xl block text-white mb-1">ي 🔊</span>
+                        <p class="text-[10px] font-bold text-slate-500">2 Titik di Bawah</p>
+                    </div>
+                </div>
+
+                <!-- Eye Scanner Game Panel -->
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider">🕹️ Game Arena: Eye Scanner</h3>
+                        <span class="text-xs text-amber-400 font-bold bg-amber-950/30 px-3 py-1 rounded-full border border-amber-500/20">Timer: <span id="scanner-timer">10s</span></span>
+                    </div>
+                    <p class="text-xs text-slate-400">Instruksi: Cari huruf yang "TIDAK SAMA" di antara tumpukan kembaran perahu di bawah ini secepat mungkin!</p>
+                    
+                    <div class="flex flex-wrap gap-3 justify-center py-4" id="eye-scanner-grid">
+                        <!-- Diisi secara dinamis oleh JavaScript -->
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2">
+                        <button onclick="setupEyeScannerGame()" class="px-4 py-2 bg-slate-850 hover:bg-slate-800 rounded-xl text-xs font-bold text-slate-300">
+                            Restart Scanner Game 🔁
+                        </button>
+                        <p id="scanner-feedback" class="text-xs font-black text-emerald-400"></p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+                    <span class="text-xs text-slate-400 font-bold">Selesai Mempelajari Modul ini?</span>
+                    <button onclick="completeModule(3)" class="bg-brand-500 hover:bg-brand-600 transition text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2">
+                        Verifikasi Modul (+25 XP)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: MODULE 4 (Chunk Recognition) -->
+            <div id="content-bab4" class="content-view hidden space-y-6 animate-sparkle">
+                <div class="bg-gradient-to-r from-emerald-950/40 to-slate-900 border border-slate-800 p-6 rounded-3xl">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest block mb-1">Module 04</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Chunk Recognition (Siluet Kata Pertama)</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Berhenti mengeja per-huruf. Biasakan mata membaca siluet kata yang memiliki frekuensi tinggi.</p>
+                </div>
+
+                <!-- Visual Silhouettes Card Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-cyber-card border border-slate-800 p-5 rounded-2xl text-center hover:border-emerald-500/30 transition group cursor-pointer" onclick="speakArabic('الله')">
+                        <span class="text-[9px] font-bold text-slate-500 block mb-1">SILUET A</span>
+                        <span class="font-arabic text-4xl block text-emerald-400 group-hover:scale-105 transition my-2">الله</span>
+                        <p class="text-xs font-semibold text-slate-300">Allāh 🔊</p>
+                    </div>
+                    <div class="bg-cyber-card border border-slate-800 p-5 rounded-2xl text-center hover:border-emerald-500/30 transition group cursor-pointer" onclick="speakArabic('رسول')">
+                        <span class="text-[9px] font-bold text-slate-500 block mb-1">SILUET B</span>
+                        <span class="font-arabic text-4xl block text-emerald-400 group-hover:scale-105 transition my-2">رسول</span>
+                        <p class="text-xs font-semibold text-slate-300">Rasūl 🔊</p>
+                    </div>
+                    <div class="bg-cyber-card border border-slate-800 p-5 rounded-2xl text-center hover:border-emerald-500/30 transition group cursor-pointer" onclick="speakArabic('كتاب')">
+                        <span class="text-[9px] font-bold text-slate-500 block mb-1">SILUET C</span>
+                        <span class="font-arabic text-4xl block text-emerald-400 group-hover:scale-105 transition my-2">كتاب</span>
+                        <p class="text-xs font-semibold text-slate-300">Kitāb 🔊</p>
+                    </div>
+                    <div class="bg-cyber-card border border-slate-800 p-5 rounded-2xl text-center hover:border-emerald-500/30 transition group cursor-pointer" onclick="speakArabic('رحمة')">
+                        <span class="text-[9px] font-bold text-slate-500 block mb-1">SILUET D</span>
+                        <span class="font-arabic text-4xl block text-emerald-400 group-hover:scale-105 transition my-2">رحمة</span>
+                        <p class="text-xs font-semibold text-slate-300">Rahmah 🔊</p>
+                    </div>
+                </div>
+
+                <!-- Chunk Matcher Game -->
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 space-y-4">
+                    <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider">🎯 Latihan: Pasangkan Siluet Kata</h3>
+                    <p class="text-xs text-slate-400">Pilih kata gundul di sebelah kiri, kemudian tentukan padanan artinya di sebelah kanan!</p>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <button onclick="selectWordMatch('arabic', 'الله', this)" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl font-arabic text-xl hover:bg-slate-800 transition text-right">الله 🔊</button>
+                            <button onclick="selectWordMatch('arabic', 'رسول', this)" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl font-arabic text-xl hover:bg-slate-800 transition text-right">رسول 🔊</button>
+                            <button onclick="selectWordMatch('arabic', 'كتاب', this)" class="w-full p-3 bg-slate-900 border border-slate-800 rounded-xl font-arabic text-xl hover:bg-slate-800 transition text-right">كتاب 🔊</button>
+                        </div>
+                        <div class="space-y-2">
+                            <button onclick="selectWordMatch('meaning', 'Allah', this)" class="w-full p-3.5 bg-slate-900 border border-slate-800 rounded-xl text-xs hover:bg-slate-800 transition text-left font-bold text-slate-300">Allah</button>
+                            <button onclick="selectWordMatch('meaning', 'Buku', this)" class="w-full p-3.5 bg-slate-900 border border-slate-800 rounded-xl text-xs hover:bg-slate-800 transition text-left font-bold text-slate-300">Buku / Kitab</button>
+                            <button onclick="selectWordMatch('meaning', 'Rasul', this)" class="w-full p-3.5 bg-slate-900 border border-slate-800 rounded-xl text-xs hover:bg-slate-800 transition text-left font-bold text-slate-300">Utusan / Rasul</button>
+                        </div>
+                    </div>
+                    <p id="matcher-feedback" class="text-xs font-bold text-center"></p>
+                </div>
+
+                <div class="flex justify-between items-center bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+                    <span class="text-xs text-slate-400 font-bold">Selesai Mempelajari Modul ini?</span>
+                    <button onclick="completeModule(4)" class="bg-brand-500 hover:bg-brand-600 transition text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2">
+                        Verifikasi Modul (+25 XP)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: MODULE 5 (Neural Root Trees) -->
+            <div id="content-bab5" class="content-view hidden space-y-6 animate-sparkle">
+                <div class="bg-gradient-to-r from-emerald-950/40 to-slate-900 border border-slate-800 p-6 rounded-3xl">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest block mb-1">Module 05</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Neural Root Family Trees (Akar Kata)</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">90% kosakata Arab diturunkan dari 3 susunan konsonan dasar (Root). Kuasai akarnya, kuasai maknanya.</p>
+                </div>
+
+                <!-- Interactive Tree Visualizer Container -->
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 space-y-6">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider">🌳 Root Word Explorer Matrix</h3>
+                        <!-- Root Selectors -->
+                        <div class="flex gap-2">
+                            <button onclick="loadRootTree('ك ت ب')" id="btn-root-kataba" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 font-black font-arabic text-sm text-white">ك ت ب</button>
+                            <button onclick="loadRootTree('ع ل م')" id="btn-root-alima" class="px-3.5 py-1.5 rounded-lg bg-slate-800 font-black font-arabic text-sm text-slate-300">ع ل م</button>
+                        </div>
+                    </div>
+
+                    <!-- Active Root Presentation -->
+                    <div class="text-center py-4 bg-slate-900 rounded-2xl border border-slate-800">
+                        <span class="text-[10px] text-slate-500 font-extrabold tracking-widest block uppercase">AKAR KATA UTAMA (ROOT)</span>
+                        <h4 id="tree-root-letters" class="font-arabic text-5xl text-emerald-400 my-2">ك ت ب</h4>
+                        <p id="tree-root-desc" class="text-xs text-slate-400 font-bold">Arti Inti: Menulis</p>
+                    </div>
+
+                    <!-- Dynamic Family Branch List -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="tree-branches-container">
+                        <!-- Diisi secara dinamis oleh JS -->
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+                    <span class="text-xs text-slate-400 font-bold">Selesai Mempelajari Modul ini?</span>
+                    <button onclick="completeModule(5)" class="bg-brand-500 hover:bg-brand-600 transition text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2">
+                        Verifikasi Modul (+25 XP)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: MODULE 6 (Pattern Discovery / Sharaf Radar) -->
+            <div id="content-bab6" class="content-view hidden space-y-6 animate-sparkle">
+                <div class="bg-gradient-to-r from-emerald-950/40 to-slate-900 border border-slate-800 p-6 rounded-3xl">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest block mb-1">Module 06</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Pattern Discovery Radar™ (Pola Sharaf)</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Mengajari otak Anda menangkap kemiripan ritme pola kata gundul tanpa perlu teori sintaksis berat.</p>
+                </div>
+
+                <!-- Pattern Sorting Sandbox -->
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 space-y-6">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider">🧩 Interactive Pattern Classifier</h3>
+                        <span class="text-[10px] bg-slate-800 text-amber-400 px-3 py-1 rounded-full font-bold">SORTING GAME</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Instruksi: Klasifikasikan kata gundul di bawah ini ke dalam kotak polanya masing-masing!</p>
+
+                    <!-- Draggable / Clickable Words -->
+                    <div class="flex flex-wrap gap-3 justify-center bg-slate-900 p-4 rounded-2xl border border-slate-850" id="sort-items-pool">
+                        <!-- Diisi secara dinamis oleh JS -->
+                    </div>
+
+                    <!-- Bin Targets -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-2xl bg-slate-900 border-2 border-dashed border-emerald-500/30 text-center space-y-3" id="pattern-bin-faail">
+                            <span class="text-xs font-bold text-emerald-400 block tracking-widest">KOTAK: فاعل (PELAKU)</span>
+                            <div class="flex flex-wrap gap-2 justify-center min-h-[48px] items-center" id="bin-faail-pool">
+                                <!-- Items dropped here -->
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-slate-900 border-2 border-dashed border-amber-500/30 text-center space-y-3" id="pattern-bin-mafool">
+                            <span class="text-xs font-bold text-amber-400 block tracking-widest">KOTAK: مفعول (OBJEK)</span>
+                            <div class="flex flex-wrap gap-2 justify-center min-h-[48px] items-center" id="bin-mafool-pool">
+                                <!-- Items dropped here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <button onclick="resetSortChallenge()" class="text-xs text-slate-500 hover:text-slate-300 transition">Atur Ulang 🔁</button>
+                        <button onclick="checkSortChallenge()" class="px-5 py-2 bg-brand-500 text-white font-extrabold text-xs rounded-xl hover:bg-brand-600 transition">Periksa Klasifikasi ✔</button>
+                    </div>
+                    <p id="sort-feedback" class="text-xs font-bold text-center"></p>
+                </div>
+
+                <div class="flex justify-between items-center bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+                    <span class="text-xs text-slate-400 font-bold">Selesai Mempelajari Modul ini?</span>
+                    <button onclick="completeModule(6)" class="bg-brand-500 hover:bg-brand-600 transition text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2">
+                        Verifikasi Modul (+25 XP)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: MODULE 7 (Visual Phrases) -->
+            <div id="content-bab7" class="content-view hidden space-y-6 animate-sparkle">
+                <div class="bg-gradient-to-r from-emerald-950/40 to-slate-900 border border-slate-800 p-6 rounded-3xl">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest block mb-1">Module 07</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Visual Phrase Blocks (Grup Frasa)</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Menggabungkan kata-kata menjadi unit visual tunggal. Otak Anda akan mengenali frasa praposisi secara instan.</p>
+                </div>
+
+                <!-- Phrase Board Matrix -->
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 space-y-4">
+                    <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <span>🔗</span> Interactive Preposition Phrase Atlas
+                    </h3>
+                    <p class="text-xs text-slate-400">Instruksi: Ketuk kartu di bawah untuk melafalkan suara arab native dan perhatikan pembentukan pola visualnya.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div onclick="speakArabic('في البيت')" class="bg-slate-900 border border-slate-800 hover:border-emerald-500/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer group transition">
+                            <div>
+                                <span class="font-arabic text-2xl text-emerald-300 group-hover:text-emerald-400 transition">فِي الْبَيْتِ</span>
+                                <p class="text-xs text-slate-400 mt-1">fī al-bayt (Di dalam rumah)</p>
+                            </div>
+                            <span class="text-slate-600 group-hover:text-brand-500 transition">🔊</span>
+                        </div>
+                        <div onclick="speakArabic('من الله')" class="bg-slate-900 border border-slate-800 hover:border-emerald-500/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer group transition">
+                            <div>
+                                <span class="font-arabic text-2xl text-emerald-300 group-hover:text-emerald-400 transition">مِنَ اللهِ</span>
+                                <p class="text-xs text-slate-400 mt-1">mina-llāh (Dari Allah)</p>
+                            </div>
+                            <span class="text-slate-600 group-hover:text-brand-500 transition">🔊</span>
+                        </div>
+                        <div onclick="speakArabic('إلى المسجد')" class="bg-slate-900 border border-slate-800 hover:border-emerald-500/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer group transition">
+                            <div>
+                                <span class="font-arabic text-2xl text-emerald-300 group-hover:text-emerald-400 transition">إِلَى الْمَسْجِدِ</span>
+                                <p class="text-xs text-slate-400 mt-1">ilā al-masjid (Ke masjid)</p>
+                            </div>
+                            <span class="text-slate-600 group-hover:text-brand-500 transition">🔊</span>
+                        </div>
+                        <div onclick="speakArabic('على الأرض')" class="bg-slate-900 border border-slate-800 hover:border-emerald-500/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer group transition">
+                            <div>
+                                <span class="font-arabic text-2xl text-emerald-300 group-hover:text-emerald-400 transition">عَلَى الْأَرْضِ</span>
+                                <p class="text-xs text-slate-400 mt-1">'alā al-ard (Di atas bumi)</p>
+                            </div>
+                            <span class="text-slate-600 group-hover:text-brand-500 transition">🔊</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+                    <span class="text-xs text-slate-400 font-bold">Selesai Mempelajari Modul ini?</span>
+                    <button onclick="completeModule(7)" class="bg-brand-500 hover:bg-brand-600 transition text-white px-5 py-2.5 rounded-xl font-black text-xs flex items-center gap-2">
+                        Verifikasi Modul (+25 XP)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: MODULE 8 (Sentence Pattern Radar) -->
+            <div id="content-bab8" class="content-view hidden space-y-6 animate-sparkle">
+                <div class="bg-gradient-to-r from-emerald-950/40 to-slate-900 border border-slate-800 p-6 rounded-3xl">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest block mb-1">Module 08</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Sentence Pattern (Pola Kalimat Alami)</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Membaca pola kalimat sintaksis tingkat lanjut secara natural layaknya menguasai bahasa ibu.</p>
+                </div>
+
+                <!-- Patterns Drill Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Pola: Qala + Aktor -->
+                    <div class="bg-cyber-card border border-slate-800 p-5 rounded-2xl space-y-3">
+                        <span class="text-[10px] text-emerald-400 font-bold block tracking-widest">POLA 01: قَالَ + PELAKU</span>
+                        <div class="p-4 bg-slate-900 rounded-xl space-y-2 cursor-pointer" onclick="speakArabic('قال الله')">
+                            <h4 class="font-arabic text-3xl text-slate-100">قَالَ اللهُ 🔊</h4>
+                            <p class="text-xs text-slate-400">Qāla Allāhu (Allah berfirman)</p>
+                        </div>
+                        <div class="p-4 bg-slate-900 rounded-xl space-y-2 cursor-pointer" onclick="speakArabic('قال الرسol')">
+                            <h4 class="font-arabic text-3xl text-slate-100">قَالَ الرَّسُولُ 🔊</h4>
+                            <p class="text-xs text-slate-400">Qāla Ar-Rasūlu (Rasul bersabda)</p>
+                        </div>
+                    </div>
+
+                    <!-- Pola: Dakhal + Tempat -->
+                    <div class="bg-cyber-card border border-slate-800 p-5 rounded-2xl space-y-3">
+                        <span class="text-[10px] text-amber-400 font-bold block tracking-widest">POLA 02: دَخَلَ + TEMPAT</span>
+                        <div class="p-4 bg-slate-900 rounded-xl space-y-2 cursor-pointer" onclick="speakArabic('دخل المسجد')">
+                            <h4 class="font-arabic text-3xl text-slate-100">دَخَلَ الْمَسْجِدَ 🔊</h4>
+                            <p class="text-xs text-slate-400">Dakhala al-masjid (Masuk ke masjid)</p>
+                        </div>
+                        <div class="p-4 bg-slate-900 rounded-xl space-y-2 cursor-pointer" onclick="speakArabic('دخل البيت')">
+                            <h4 class="font-arabic text-3xl text-slate-100">دَخَلَ الْبَيْتَ 🔊</h4>
+                            <p class="text-xs text-slate-400">Dakhala al-bayt (Masuk ke rumah)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gamified Drag & Build Component -->
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 space-y-4">
+                    <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider">🧩 Interactive Sentence Builder</h3>
+                    <p class="text-xs text-slate-400">Susun potongan kata di bawah untuk membuat kalimat utuh: <span class="font-bold text-emerald-400">"Rasulullah bersabda"</span></p>
+
+                    <!-- Target Canvas -->
+                    <div id="builder-dropzone" class="p-4 bg-slate-900 border-2 border-dashed border-slate-800 rounded-2xl flex justify-center items-center gap-3 min-h-[64px]">
+                        <!-- Dropped/Selected tags go here -->
+                    </div>
+
+                    <!-- Word Source Items -->
+                    <div class="flex gap-2 justify-center" id="builder-source-tags">
+                        <button onclick="handleBuilderWord(this, 'الرَّسُولُ')" class="px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl font-arabic text-xl text-slate-200">الرَّسُولُ 🔊</button>
+                        <button onclick="handleBuilderWord(this, 'قَالَ')" class="px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl font-arabic text-xl text-slate-200">قَالَ 🔊</button>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2">
+                        <button onclick="resetBuilder()" class="text-xs text-slate-500 hover:text-slate-300 transition">Reset Susunan 🔁</button>
+                        <button onclick="evaluateBuilder()" class="px-5 py-2.5 bg-emerald-600 text-white font-extrabold text-xs rounded-xl hover:bg-emerald-500 transition">Periksa Susunan Kalimat ✔</button>
+                    </div>
+                    <p id="builder-feedback" class="text-xs font-bold text-center"></p>
+                </div>
+
+                <div class="bg-gradient-to-tr from-brand-900/30 to-slate-900 border border-brand-500/20 p-6 rounded-3xl text-center space-y-3">
+                    <span class="text-3xl block">🏁</span>
+                    <h3 class="text-base font-extrabold text-white">Level 1 Modules Completed Successfully!</h3>
+                    <p class="text-xs text-slate-400 max-w-sm mx-auto">Anda telah menguasai seluruh materi dasar pengenalan saraf visual. Saatnya masuk Arena Boss Quiz!</p>
+                    <button onclick="startBossQuiz()" class="px-6 py-3 bg-brand-500 text-white text-xs font-black rounded-xl hover:bg-brand-600 active:scale-95 transition shadow-lg shadow-brand-500/25">
+                        MULAI INTERAKTIF BOSS QUIZ (LEVEL 1) ⚡
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: BOSS QUIZ ARENA -->
+            <div id="content-quiz" class="content-view hidden space-y-6 animate-sparkle">
+                <div class="bg-cyber-card border border-slate-800 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+                    
+                    <!-- Progress Section -->
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">APRS Arena: Boss Challenge Level 1</span>
+                        <span id="quiz-header-counter" class="text-xs font-extrabold text-amber-400">Soal 1 / 4</span>
+                    </div>
+                    <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-850 mb-6">
+                        <div class="bg-gradient-to-r from-amber-500 to-brand-500 h-full transition-all duration-300" id="quiz-progress-bar" style="width: 25%"></div>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800/80 mb-6">
+                        <span id="quiz-category" class="text-[9px] text-amber-400 font-extrabold tracking-wider block mb-2">CATEGORY: WAJAH HURUF</span>
+                        <h3 id="quiz-question-text" class="text-sm sm:text-base font-extrabold text-white leading-relaxed">Pilihlah huruf yang memegang klasifikasi "2 titik di bawah"</h3>
+                    </div>
+
+                    <!-- Option Containers -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="quiz-options-grid">
+                        <!-- Injected dynamic options -->
+                    </div>
+
+                    <!-- Footer Action Controls -->
+                    <div class="flex justify-between items-center pt-5 border-t border-slate-850 mt-8">
+                        <span class="text-[10px] text-slate-500">Auto nilai dan efek suara instan</span>
+                        <button onclick="handleQuizSubmit()" class="px-5 py-2.5 bg-brand-500 text-white text-xs font-extrabold rounded-xl hover:bg-brand-600 transition flex items-center gap-2">
+                            Lanjutkan Pertanyaan ➡️
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer System -->
+    <footer class="bg-cyber-dark border-t border-slate-850 py-8 px-4 text-center mt-12">
+        <p class="text-[11px] text-slate-500">© 2026 Arabic Pattern Reading System™ (APRS). All Rights Reserved.</p>
+    </footer>
+
+    <!-- Interactive Scripts & Game Engine Logic -->
+    <script>
+        // Global App State Dashboard variables
+        let xpCount = 0;
+        let currentLvl = 1;
+        let completedModulesList = [];
+
+        // Mobile Sidebar Slide-out Drawer Toggle Controller
+        function toggleSidebar(open) {
+            const sidebar = document.getElementById('app-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (open) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-0');
+                    overlay.classList.add('opacity-100');
+                }, 10);
+                document.body.style.overflow = 'hidden'; // Lock background scroll on mobile drawer
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = ''; // Release background scroll lock
+            }
+        }
+
+        // App Navigation Management with drawer auto-close
+        function switchTab(tabName) {
+            document.querySelectorAll('.content-view').forEach(view => {
+                view.classList.add('hidden');
+            });
+            const activeView = document.getElementById('content-' + tabName);
+            if (activeView) activeView.classList.remove('hidden');
+
+            // Reset tab styles dynamically
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 text-left border-l-4 border-l-transparent";
+            });
+
+            const activeBtn = document.getElementById('btn-tab-' + tabName);
+            if (activeBtn) {
+                if (tabName === 'roadmap') {
+                    activeBtn.className = "tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition bg-brand-500/10 border-l-4 border-brand-500 text-emerald-400 text-left relative overflow-hidden group";
+                } else {
+                    activeBtn.className = "tab-btn w-full flex items-center justify-between p-3 rounded-2xl transition bg-brand-500/10 border-l-4 border-brand-500 text-emerald-400 text-left relative overflow-hidden group border border-brand-500/30";
+                }
+            }
+
+            // Game initializers
+            if (tabName === 'bab3') {
+                setupEyeScannerGame();
+            } else if (tabName === 'bab5') {
+                loadRootTree('ك ت ب');
+            } else if (tabName === 'bab6') {
+                setupSortChallenge();
+            }
+
+            // Auto-close sidebar on mobile once a selection has been registered
+            if (window.innerWidth < 1024) {
+                toggleSidebar(false);
+            }
+        }
+
+        // Premium Notification Custom System (No raw default alerts)
+        function showNotification(title, message, isSuccess = true) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-6 right-6 bg-slate-900 border " + (isSuccess ? "border-brand-500 glow-green" : "border-rose-500") + " p-4 rounded-2xl flex items-center gap-3 shadow-2xl z-50 animate-sparkle max-w-sm w-full mx-4 sm:mx-0";
+            toast.innerHTML = `
+                <span class="text-2xl">${isSuccess ? '🏅' : '⚠️'}</span>
+                <div>
+                    <h4 class="text-xs font-extrabold text-white">${title}</h4>
+                    <p class="text-[10px] text-slate-400">${message}</p>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // Web Audio API Synthesizer (Zero-asset sound effects)
+        class GameAudioSynth {
+            constructor() {
+                this.audioCtx = null;
+            }
+            init() {
+                if (!this.audioCtx) {
+                    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+            playCorrect() {
+                this.init();
+                const now = this.audioCtx.currentTime;
+                this.generateTone(523.25, 0.1, now); // C5
+                this.generateTone(659.25, 0.15, now + 0.08); // E5
+            }
+            playIncorrect() {
+                this.init();
+                const now = this.audioCtx.currentTime;
+                this.generateTone(110.00, 0.25, now, 'sawtooth'); // A2 buzz
+            }
+            playLevelUp() {
+                this.init();
+                const now = this.audioCtx.currentTime;
+                this.generateTone(261.63, 0.1, now); // C4
+                this.generateTone(329.63, 0.1, now + 0.1); // E4
+                this.generateTone(392.00, 0.1, now + 0.2); // G4
+                this.generateTone(523.25, 0.3, now + 0.3); // C5
+            }
+            generateTone(freq, dur, start, type = 'sine') {
+                const osc = this.audioCtx.createOscillator();
+                const gainNode = this.audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, start);
+                gainNode.gain.setValueAtTime(0.12, start);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+                osc.connect(gainNode);
+                gainNode.connect(this.audioCtx.destination);
+                osc.start(start);
+                osc.stop(start + dur);
+            }
+        }
+        const sfx = new GameAudioSynth();
+
+        // Web Speech API Arabic Native Synthesis
+        const speechRateSlider = document.getElementById('speech-rate');
+        const speechRateVal = document.getElementById('rate-val');
+
+        if (speechRateSlider) {
+            speechRateSlider.addEventListener('input', (e) => {
+                speechRateVal.innerText = e.target.value + "x";
+            });
+        }
+
+        function speakArabic(text) {
+            sfx.init();
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance(text);
+                speech.lang = 'ar-SA';
+                speech.rate = speechRateSlider ? parseFloat(speechRateSlider.value) : 0.7;
+                speech.pitch = 1.0;
+                
+                const voices = window.speechSynthesis.getVoices();
+                const arVoice = voices.find(v => v.lang.startsWith('ar'));
+                if (arVoice) {
+                    speech.voice = arVoice;
+                }
+                window.speechSynthesis.speak(speech);
+            }
+        }
+
+        function testSpeechEngine() {
+            speakArabic("أَهْلًا وَسَهْلًا بِكُمْ فِي أَبِيرِسْ");
+            earnXP(5);
+        }
+
+        // Gamified reward system
+        function earnXP(amount) {
+            xpCount += amount;
+            document.getElementById('xp-counter').innerText = xpCount + " XP";
+
+            // Float text indicator
+            const floatText = document.getElementById('floating-xp');
+            floatText.innerText = "+" + amount + " XP";
+            floatText.classList.remove('opacity-0', 'translate-y-10');
+            floatText.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                floatText.classList.remove('opacity-100', 'translate-y-0');
+                floatText.classList.add('opacity-0', 'translate-y-10');
+            }, 1000);
+
+            // Level Up Check
+            const nextLvl = Math.floor(xpCount / 100) + 1;
+            if (nextLvl > currentLvl) {
+                currentLvl = nextLvl;
+                document.getElementById('level-badge').innerText = currentLvl;
+                sfx.playLevelUp();
+                
+                // Show floating award visual popup
+                const wrapper = document.createElement('div');
+                wrapper.className = "fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 animate-sparkle";
+                wrapper.innerHTML = `
+                    <div class="bg-cyber-card border border-brand-500 rounded-3xl p-8 max-w-sm text-center space-y-4 shadow-2xl">
+                        <span class="text-5xl block animate-bounce">🎉</span>
+                        <h3 class="text-2xl font-black text-white">LEVEL UP!</h3>
+                        <p class="text-xs text-slate-300">Selamat! Saraf otak visualmu berkembang pesat. Anda sekarang mencapai Level ${currentLvl}!</p>
+                        <button onclick="this.parentElement.parentElement.remove()" class="px-6 py-2 bg-brand-500 text-white rounded-xl font-bold text-xs">Ayo Lanjutkan!</button>
+                    </div>
+                `;
+                document.body.appendChild(wrapper);
+            }
+        }
+
+        // Dynamic Roadmaps calculation update
+        function updateRoadmapProgress() {
+            const completedCount = completedModulesList.length;
+            const pct = Math.round((completedCount / 8) * 100);
+            document.getElementById('level-progress-pct').innerText = pct + "%";
+            document.getElementById('roadmap-bar-1').style.width = pct + "%";
+        }
+
+        // Module Completion Checker with Toast Notification
+        function completeModule(num) {
+            if (!completedModulesList.includes(num)) {
+                completedModulesList.push(num);
+                earnXP(25);
+                sfx.playCorrect();
+                
+                if (num === 1) document.getElementById('badge-1').classList.remove('grayscale', 'opacity-40');
+                updateRoadmapProgress();
+                
+                // Custom notification replacement for alert()
+                showNotification(`Modul ${num} Selesai!`, "Saraf visual Anda telah tersinkronisasi. Lanjutkan bab berikutnya!", true);
+            } else {
+                showNotification("Modul Sudah Selesai", "Anda sudah merampungkan pengenalan pola di modul ini.", false);
+            }
+        }
+
+        // Game M1: Hunter Game
+        function checkHunter(btn, isCorrect, word) {
+            speakArabic(word);
+            const feedback = document.getElementById('hunter-feedback');
+            if (isCorrect) {
+                btn.className = "p-4 bg-brand-500 text-white border border-brand-500 rounded-2xl transition scale-105 shadow-lg shadow-brand-500/20 font-arabic text-2xl flex justify-between items-center";
+                feedback.innerText = "✔️ BENAR! Otakmu sukses mendeteksi siluet kata Allah!";
+                feedback.className = "text-xs font-bold text-emerald-400 mt-2";
+                sfx.playCorrect();
+                earnXP(10);
+            } else {
+                btn.className = "p-4 bg-rose-900 border border-rose-500 text-white rounded-2xl transition scale-95 duration-75 font-arabic text-2xl flex justify-between items-center";
+                feedback.innerText = "❌ SALAH! Ini bentuk visual lain. Cari kembaran siluet target.";
+                feedback.className = "text-xs font-bold text-rose-400 mt-2";
+                sfx.playIncorrect();
+            }
+        }
+
+        // Game M2: Alif Hunter
+        function checkAlifHunter(btn, isCorrect) {
+            const feedback = document.getElementById('alif-feedback');
+            if (isCorrect) {
+                btn.className = "w-12 h-12 bg-brand-500 text-white border-brand-500 rounded-xl font-arabic text-xl transition scale-105 shadow-md";
+                feedback.innerText = "✔️ Alif terdeteksi!";
+                feedback.className = "text-xs font-bold text-emerald-400 text-center";
+                sfx.playCorrect();
+                earnXP(5);
+            } else {
+                btn.className = "w-12 h-12 bg-rose-950 border-rose-500 text-white rounded-xl font-arabic text-xl transition scale-95";
+                feedback.innerText = "❌ Bukan Alif.";
+                feedback.className = "text-xs font-bold text-rose-400 text-center";
+                sfx.playIncorrect();
+            }
+        }
+
+        // Game M3: Eye Scanner Game Loop Engine
+        let scannerClock;
+        let scannerRemaining = 10;
+        let targetOddLetter = '';
+
+        function setupEyeScannerGame() {
+            clearInterval(scannerClock);
+            scannerRemaining = 10;
+            document.getElementById('scanner-timer').innerText = scannerRemaining + "s";
+            document.getElementById('scanner-feedback').innerText = '';
+
+            const container = document.getElementById('eye-scanner-grid');
+            container.innerHTML = '';
+
+            const structSets = [
+                { normal: 'ب', odd: 'ت' },
+                { normal: 'ت', odd: 'ث' },
+                { normal: 'ي', odd: 'ب' },
+                { normal: 'ن', odd: 'ي' }
+            ];
+            const currentPair = structSets[Math.floor(Math.random() * structSets.length)];
+            targetOddLetter = currentPair.odd;
+
+            let elements = [];
+            for (let i = 0; i < 11; i++) {
+                elements.push({ val: currentPair.normal, isOdd: false });
+            }
+            elements.push({ val: currentPair.odd, isOdd: true });
+            elements.sort(() => Math.random() - 0.5);
+
+            elements.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = "w-12 h-12 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-amber-400 font-arabic text-2xl rounded-xl flex items-center justify-center transition active:scale-95";
+                btn.innerText = item.val;
+                btn.onclick = () => selectScannerItem(btn, item.isOdd);
+                container.appendChild(btn);
+            });
+
+            scannerClock = setInterval(() => {
+                scannerRemaining--;
+                document.getElementById('scanner-timer').innerText = scannerRemaining + "s";
+                if (scannerRemaining <= 0) {
+                    clearInterval(scannerClock);
+                    document.getElementById('scanner-feedback').innerText = "Waktu Habis! Silakan dicoba lagi.";
+                    document.getElementById('scanner-feedback').className = "text-xs font-bold text-rose-400";
+                    sfx.playIncorrect();
+                }
+            }, 1000);
+        }
+
+        function selectScannerItem(btn, isOdd) {
+            if (scannerRemaining <= 0) return;
+            if (isOdd) {
+                clearInterval(scannerClock);
+                btn.className = "w-12 h-12 bg-brand-500 text-white font-arabic text-2xl rounded-xl flex items-center justify-center transition scale-110 shadow-lg";
+                document.getElementById('scanner-feedback').innerText = "Luar Biasa! Kamu menemukan anomali " + targetOddLetter;
+                document.getElementById('scanner-feedback').className = "text-xs font-bold text-emerald-400";
+                sfx.playCorrect();
+                earnXP(15);
+                document.getElementById('badge-2').classList.remove('grayscale', 'opacity-40');
+            } else {
+                btn.className = "w-12 h-12 bg-rose-900 border border-rose-500 text-white font-arabic text-2xl rounded-xl flex items-center justify-center transition scale-95";
+                sfx.playIncorrect();
+            }
+        }
+
+        // Game M4: Word Matcher System
+        let activeMatchArabic = null;
+        let activeMatchBtn = null;
+
+        function selectWordMatch(type, value, btn) {
+            if (type === 'arabic') {
+                if (activeMatchBtn) {
+                    activeMatchBtn.classList.remove('border-amber-500');
+                }
+                activeMatchArabic = value;
+                activeMatchBtn = btn;
+                btn.classList.add('border-2', 'border-amber-500');
+                speakArabic(value);
+            } else {
+                if (!activeMatchArabic) {
+                    document.getElementById('matcher-feedback').innerText = "Pilih kata Arab di kiri dahulu.";
+                    document.getElementById('matcher-feedback').className = "text-xs font-bold text-amber-400";
+                    return;
+                }
+                
+                const pairs = { 'الله': 'Allah', 'رسول': 'Rasul', 'كتاب': 'Buku' };
+                if (pairs[activeMatchArabic] === value) {
+                    btn.className = "w-full p-3.5 bg-brand-500 text-white rounded-xl text-xs font-black";
+                    activeMatchBtn.className = "w-full p-3 bg-brand-500 text-white rounded-xl font-arabic text-xl text-right";
+                    document.getElementById('matcher-feedback').innerText = "✔️ Match Sempurna!";
+                    document.getElementById('matcher-feedback').className = "text-xs font-bold text-emerald-400 text-center";
+                    sfx.playCorrect();
+                    earnXP(15);
+                } else {
+                    document.getElementById('matcher-feedback').innerText = "❌ Tidak sinkron! Coba lagi.";
+                    document.getElementById('matcher-feedback').className = "text-xs font-bold text-rose-400 text-center";
+                    sfx.playIncorrect();
+                }
+                activeMatchArabic = null;
+                activeMatchBtn = null;
+            }
+        }
+
+        // Game M5: Tree Visualizer logic
+        const treesData = {
+            'ك ت ب': {
+                meaning: 'Menulis',
+                branches: [
+                    { word: 'كَتَبَ', desc: 'Menulis (Past)' },
+                    { word: 'كِتَاب', desc: 'Buku / Kitab' },
+                    { word: 'كَاتِب', desc: 'Penulis (Aktor)' },
+                    { word: 'مَكْتَبَة', desc: 'Perpustakaan' }
+                ]
+            },
+            'ع ل م': {
+                meaning: 'Mengetahui / Ilmu',
+                branches: [
+                    { word: 'عَلِمَ', desc: 'Mengetahui (Past)' },
+                    { word: 'عَالِم', desc: 'Orang Alim / Ilmuwan' },
+                    { word: 'مُعَلِّم', desc: 'Guru / Pengajar' },
+                    { word: 'مَعْلُوم', desc: 'Diketahui (Objek)' }
+                ]
+            }
+        };
+
+        function loadRootTree(rootKey) {
+            const data = treesData[rootKey];
+            document.getElementById('tree-root-letters').innerText = rootKey;
+            document.getElementById('tree-root-desc').innerText = "Arti Inti: " + data.meaning;
+
+            // Highlight buttons
+            if (rootKey === 'ك ت ب') {
+                document.getElementById('btn-root-kataba').className = "px-3.5 py-1.5 rounded-lg bg-emerald-600 font-black font-arabic text-sm text-white";
+                document.getElementById('btn-root-alima').className = "px-3.5 py-1.5 rounded-lg bg-slate-800 font-black font-arabic text-sm text-slate-300";
+            } else {
+                document.getElementById('btn-root-kataba').className = "px-3.5 py-1.5 rounded-lg bg-slate-800 font-black font-arabic text-sm text-slate-300";
+                document.getElementById('btn-root-alima').className = "px-3.5 py-1.5 rounded-lg bg-emerald-600 font-black font-arabic text-sm text-white";
+            }
+
+            const branchesBox = document.getElementById('tree-branches-container');
+            branchesBox.innerHTML = '';
+
+            data.branches.forEach(branch => {
+                const card = document.createElement('div');
+                card.className = "p-4 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-emerald-500/50 cursor-pointer transition group";
+                card.onclick = () => speakArabic(branch.word);
+                card.innerHTML = `
+                    <span class="font-arabic text-3xl block text-emerald-300 group-hover:text-emerald-400 mb-1">${branch.word}</span>
+                    <p class="text-[10px] text-slate-400 font-bold leading-tight">${branch.desc}</p>
+                `;
+                branchesBox.appendChild(card);
+            });
+            speakArabic(rootKey);
+        }
+
+        // Game M6: Sharaf Sort challenge logic
+        let itemsPool = [
+            { word: 'كَاتِب', type: 'faail' },
+            { word: 'سَامِع', type: 'faail' },
+            { word: 'مَكْتُوب', type: 'mafool' },
+            { word: 'مَعْلُوم', type: 'mafool' }
+        ];
+        let currentSortedAnswers = { faail: [], mafool: [] };
+        let activeSortItem = null;
+        let activeSortBtn = null;
+
+        function setupSortChallenge() {
+            currentSortedAnswers = { faail: [], mafool: [] };
+            document.getElementById('bin-faail-pool').innerHTML = '';
+            document.getElementById('bin-mafool-pool').innerHTML = '';
+            document.getElementById('sort-feedback').innerText = '';
+
+            const pool = document.getElementById('sort-items-pool');
+            pool.innerHTML = '';
+
+            itemsPool.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = "px-4 py-2 bg-slate-800 border border-slate-700 text-slate-200 font-arabic text-lg rounded-xl hover:border-amber-500 transition";
+                btn.innerText = item.word;
+                btn.onclick = () => selectSortItem(item, btn);
+                pool.appendChild(btn);
+            });
+        }
+
+        function selectSortItem(item, btn) {
+            activeSortItem = item;
+            activeSortBtn = btn;
+            speakArabic(item.word);
+            document.querySelectorAll('#sort-items-pool button').forEach(b => b.classList.remove('border-amber-500', 'border-2'));
+            btn.classList.add('border-2', 'border-amber-500');
+        }
+
+        // Bins listener
+        document.getElementById('pattern-bin-faail').onclick = () => dropSortItem('faail');
+        document.getElementById('pattern-bin-mafool').onclick = () => dropSortItem('mafool');
+
+        function dropSortItem(targetType) {
+            if (!activeSortItem) return;
+            
+            currentSortedAnswers[targetType].push(activeSortItem);
+            
+            const targetContainer = targetType === 'faail' ? document.getElementById('bin-faail-pool') : document.getElementById('bin-mafool-pool');
+            const span = document.createElement('span');
+            span.className = "px-3 py-1 bg-slate-800 rounded-lg text-emerald-400 font-arabic text-sm";
+            span.innerText = activeSortItem.word;
+            targetContainer.appendChild(span);
+
+            activeSortBtn.remove();
+            activeSortItem = null;
+            activeSortBtn = null;
+        }
+
+        function resetSortChallenge() {
+            setupSortChallenge();
+        }
+
+        function checkSortChallenge() {
+            let correct = true;
+            currentSortedAnswers.faail.forEach(item => {
+                if (item.type !== 'faail') correct = false;
+            });
+            currentSortedAnswers.mafool.forEach(item => {
+                if (item.type !== 'mafool') correct = false;
+            });
+
+            const totalClassified = currentSortedAnswers.faail.length + currentSortedAnswers.mafool.length;
+            if (totalClassified < 4) {
+                document.getElementById('sort-feedback').innerText = "Silakan klasifikasikan semua kata terlebih dahulu!";
+                document.getElementById('sort-feedback').className = "text-xs font-bold text-amber-400 text-center";
+                sfx.playIncorrect();
+                return;
+            }
+
+            if (correct) {
+                document.getElementById('sort-feedback').innerText = "✔️ Sempurna! Otakmu berhasil membagi struktur Pelaku & Objek secara tepat!";
+                document.getElementById('sort-feedback').className = "text-xs font-bold text-emerald-400 text-center";
+                sfx.playCorrect();
+                earnXP(20);
+            } else {
+                document.getElementById('sort-feedback').innerText = "❌ Ada penempatan yang terbalik. Atur ulang dan periksa lafalnya.";
+                document.getElementById('sort-feedback').className = "text-xs font-bold text-rose-400 text-center";
+                sfx.playIncorrect();
+            }
+        }
+
+        // Game M8: Sentence Builder
+        let builderState = [];
+        
+        function handleBuilderWord(btn, word) {
+            if (builderState.includes(word)) return;
+            builderState.push(word);
+            btn.classList.add('opacity-45', 'pointer-events-none');
+
+            const target = document.getElementById('builder-dropzone');
+            const span = document.createElement('span');
+            span.className = "px-4 py-2 bg-slate-850 border border-slate-750 font-arabic text-xl rounded-xl text-emerald-300 shadow cursor-pointer";
+            span.innerText = word;
+            span.onclick = () => {
+                span.remove();
+                builderState = builderState.filter(w => w !== word);
+                btn.classList.remove('opacity-45', 'pointer-events-none');
+            };
+            target.appendChild(span);
+            speakArabic(word);
+        }
+
+        function resetBuilder() {
+            builderState = [];
+            document.getElementById('builder-dropzone').innerHTML = '';
+            document.getElementById('builder-source-tags').querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('opacity-45', 'pointer-events-none');
+            });
+            document.getElementById('builder-feedback').innerText = '';
+        }
+
+        function evaluateBuilder() {
+            const fb = document.getElementById('builder-feedback');
+            // Expected Arabic structure: قَالَ (Right-to-Left writing layout context, array element order matching standard)
+            const expectedOrder = ['قَالَ', 'الرَّسُولُ'];
+            
+            if (builderState.length !== 2) {
+                fb.innerText = "❌ Kalimat belum lengkap!";
+                fb.className = "text-xs font-bold text-rose-400 text-center";
+                sfx.playIncorrect();
+                return;
+            }
+
+            let pass = true;
+            for (let i = 0; i < expectedOrder.length; i++) {
+                if (builderState[i] !== expectedOrder[i]) pass = false;
+            }
+
+            if (pass) {
+                fb.innerText = "✔️ Sempurna! Pola 'Verb + Subject' (قَالَ الرَّسُولُ) tersusun dengan benar!";
+                fb.className = "text-xs font-bold text-emerald-400 text-center";
+                sfx.playCorrect();
+                earnXP(20);
+                speakArabic("قال الرسول");
+            } else {
+                fb.innerText = "❌ Struktur terbalik! Arab dibaca dan disusun dari kanan ke kiri.";
+                fb.className = "text-xs font-bold text-rose-400 text-center";
+                sfx.playIncorrect();
+            }
+        }
+
+        // Boss Quiz Engine
+        let activeQuizIdx = 0;
+        let quizEarnedScore = 0;
+        let selectedQuizOpt = null;
+
+        const quizData = [
+            {
+                cat: "WAJAH HURUF",
+                text: "Huruf perahu manakah yang memiliki status kepemilikan '2 titik di bawah'?",
+                opts: ["ب", "ت", "ي", "ن"],
+                correct: "ي"
+            },
+            {
+                cat: "CHUNKS DETECTOR",
+                text: "Siluet visual tanpa harakat manakah yang merepresentasikan arti dari kata 'Rasul'?",
+                opts: ["الله", "كتاب", "رسول", "رحمة"],
+                correct: "رسول",
+                arVal: "رسول"
+            },
+            {
+                cat: "NEURAL MORPHOLOGY",
+                text: "Manakah kata turunan akar kata 'ك ت ب' yang berarti kata benda 'Buku / Kitab'?",
+                opts: ["كَتَبَ", "كِتَاب", "كَاتِب", "مَكْتَبَة"],
+                correct: "كِتَاب"
+            },
+            {
+                cat: "SINTAKSIS RADAR",
+                text: "Artikan dengan tepat struktur pola visual berikut: قَالَ الْإِمَامُ",
+                opts: ["Telah tertulis kitab", "Imam memasuki rumah", "Sang Imam berkata", "Membaca Al-Qur'an"],
+                correct: "Sang Imam berkata"
+            }
+        ];
+
+        function startBossQuiz() {
+            activeQuizIdx = 0;
+            quizEarnedScore = 0;
+            switchTab('quiz');
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            selectedQuizOpt = null;
+            const item = quizData[activeQuizIdx];
+
+            document.getElementById('quiz-header-counter').innerText = `Soal ${activeQuizIdx + 1} / ${quizData.length}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((activeQuizIdx + 1) / quizData.length) * 100}%`;
+            document.getElementById('quiz-category').innerText = `KATEGORI: ${item.cat}`;
+            document.getElementById('quiz-question-text').innerText = item.text;
+
+            const grid = document.getElementById('quiz-options-grid');
+            grid.innerHTML = '';
+
+            item.opts.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "p-4 bg-slate-900 hover:bg-slate-800 border border-slate-850 rounded-2xl flex justify-between items-center text-sm font-semibold text-slate-300 active:scale-[0.98] transition";
+                
+                // Render arabic correctly with large font
+                if (opt.match(/[\u0600-\u06FF]/)) {
+                    btn.innerHTML = `<span class="font-arabic text-3xl">${opt}</span><span class="indicator text-xs">⚪</span>`;
+                } else {
+                    btn.innerHTML = `<span>${opt}</span><span class="indicator text-xs">⚪</span>`;
+                }
+
+                btn.onclick = () => {
+                    document.querySelectorAll('#quiz-options-grid button').forEach(b => {
+                        b.className = "p-4 bg-slate-900 hover:bg-slate-800 border border-slate-850 rounded-2xl flex justify-between items-center text-sm font-semibold text-slate-300 active:scale-[0.98] transition";
+                        b.querySelector('.indicator').innerText = '⚪';
+                    });
+
+                    btn.className = "p-4 bg-brand-500/10 border-2 border-brand-500 rounded-2xl flex justify-between items-center text-sm font-extrabold text-white transition";
+                    btn.querySelector('.indicator').innerText = '🟢';
+                    selectedQuizOpt = opt;
+
+                    // Speak if arabic
+                    if (opt.match(/[\u0600-\u06FF]/)) {
+                        speakArabic(opt);
+                    } else if (item.arVal && opt === item.correct) {
+                        speakArabic(item.arVal);
+                    }
+                };
+
+                grid.appendChild(btn);
+            });
+        }
+
+        function handleQuizSubmit() {
+            if (!selectedQuizOpt) {
+                showNotification("Opsi Kosong", "Silakan pilih salah satu jawaban terlebih dahulu!", false);
+                return;
+            }
+
+            const item = quizData[activeQuizIdx];
+            if (selectedQuizOpt === item.correct) {
+                quizEarnedScore++;
+                sfx.playCorrect();
+                earnXP(30);
+            } else {
+                sfx.playIncorrect();
+            }
+
+            activeQuizIdx++;
+            if (activeQuizIdx < quizData.length) {
+                loadQuizQuestion();
+            } else {
+                finishQuizChallenge();
+            }
+        }
+
+        function finishQuizChallenge() {
+            sfx.playLevelUp();
+            document.getElementById('badge-3').classList.remove('grayscale', 'opacity-40');
+            
+            const bonusXP = quizEarnedScore * 50;
+            earnXP(bonusXP);
+
+            const overlay = document.createElement('div');
+            overlay.className = "fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 animate-sparkle";
+            overlay.innerHTML = `
+                <div class="bg-cyber-card border-2 border-brand-500 rounded-3xl p-8 max-w-sm text-center space-y-4 shadow-2xl">
+                    <span class="text-5xl block animate-bounce">🏆</span>
+                    <h3 class="text-2xl font-black text-white">CHALLENGE SELESAI!</h3>
+                    <p class="text-xs text-slate-300">Skor Anda: <span class="text-emerald-400 font-extrabold">${quizEarnedScore} / ${quizData.length} Benar</span>.</p>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Selamat! Kamu telah merengkuh trofi kedaulatan pola tertinggi: "Pattern Lord"!</p>
+                    <button onclick="this.parentElement.parentElement.remove(); switchTab('roadmap');" class="px-6 py-2.5 bg-brand-500 text-white rounded-xl font-bold text-xs">Kembali ke Roadmap</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        // Voice preparation loader trigger
+        window.addEventListener('load', () => {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
+            }
+        });
+    </script>
+</body>
+</html>
