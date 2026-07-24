@@ -1,0 +1,56 @@
+Arabic Pattern Matrix™ Documentation
+Open Source Template Documentation for GitHub
+
+Vision
+Arabic Pattern Matrix™ adalah platform pembelajaran Bahasa Arab berbasis Visual Pattern Recognition, Neuroscience, Gamification, dan AI untuk membawa pembelajar dari nol hingga mampu membaca kitab kuning.
+Core Features
+• Neural Pattern Recognition
+• Visual Memory Engine
+• Arabic Root Explorer
+• Pattern Recognition
+• Native Audio
+• Gamification (XP, Badge, Boss)
+• AI Learning Assistant
+Learning Roadmap
+Stage 1: Neural Recognition (Level 1–20)
+Stage 2: Sharaf Engine (21–40)
+Stage 3: Nahwu Visual (41–60)
+Stage 4: Kitab Reading (61–80)
+Stage 5: Advanced Analysis (81–100)
+Repository Structure
+docs/
+assets/
+data/
+src/
+stage1/
+stage2/
+stage3/
+stage4/
+stage5/
+README.md
+LICENSE
+CONTRIBUTING.md
+CHANGELOG.md
+Stage 1 Curriculum (1–20)
+1 Brain Awakening
+2 Letter Faces
+3 Letter Families
+4 Letter Positions
+5 Shape Memory
+6 Word Silhouette
+7 Root Detector
+8 Root Game
+9 Top 100 Words
+10 Phrase Block
+11 Root Tree KTB
+12 Root Tree QRA
+13 Root Tree ALM
+14 Root Tree HFZ
+15 Pattern Fa'il
+16 Pattern Maf'ul
+17 Pattern Intensive
+18 Sentence Pattern
+19 Mini Story
+20 Final Boss Mini Kitab
+Future Roadmap
+OCR Arab Gundul, AI Teacher, Mobile Apps, Offline Mode, Camera Scan, Adaptive Learning.
