@@ -1,194 +1,113 @@
-# 📖 Arabic Pattern Reading System™ (APRS)
-## Belajar Membaca Arab Gundul Sesuai Cara Kerja Otak
+<p align="center">
+
+<img src="assets/banner/banner.png" width="100%">
+
+</p>
+
+<h1 align="center">
+
+Arabic Pattern™
+
+</h1>
 
 <p align="center">
-<img src="docs/logo.png" width="180">
 
-### 🧠 Learn Arabic Like Your Brain Naturally Learns
+<b>Open Source Arabic Reading Framework</b>
 
-**Visual • Pattern • Root • Sentence • Kitab**
+<br>
 
----
+Arabic Neural Pattern System (ANPS™)
 
-![Version](https://img.shields.io/badge/version-v1.0-blue)
-![Status](https://img.shields.io/badge/status-development-green)
-![License](https://img.shields.io/badge/license-MIT-orange)
-![Language](https://img.shields.io/badge/Language-Bahasa%20Indonesia-success)
+<br><br>
+
+Learn Arabic through Pattern Recognition.
+
+Designed for Students, Teachers, Researchers and Developers.
+
+</p>
+
+<p align="center">
+
+<img src="https://img.shields.io/github/license/bukhariyulianto/Arabic_Patern">
+
+<img src="https://img.shields.io/github/stars/bukhariyulianto/Arabic_Patern">
+
+<img src="https://img.shields.io/github/forks/bukhariyulianto/Arabic_Patern">
+
+<img src="https://img.shields.io/github/issues/bukhariyulianto/Arabic_Patern">
+
+<img src="https://img.shields.io/github/last-commit/bukhariyulianto/Arabic_Patern">
 
 </p>
 
 ---
 
-# 📚 Tentang Project
+# Overview
 
-**Arabic Pattern Reading System™ (APRS)** adalah sistem pembelajaran modern untuk membaca **Bahasa Arab Gundul (Arab tanpa harakat)** yang dikembangkan menggunakan pendekatan:
+Arabic Pattern™ is an open-source framework designed to simplify Arabic reading using **Pattern Recognition Learning**.
 
-- 🧠 Pattern Recognition
-- 👀 Visual Learning
-- 🌳 Root Word Recognition
-- 📖 Sentence Pattern
-- 🔁 Spaced Repetition
-- 🎮 Gamification
-- 🧩 Neuroscience Learning
+Instead of memorizing isolated vocabulary, learners recognize recurring visual and linguistic patterns that appear throughout Arabic texts.
 
-Metode ini tidak mengajarkan peserta untuk menghafal Nahwu dan Sharaf sejak awal.
-
-Sebaliknya, peserta dibimbing untuk **mengenali pola**, sehingga membaca menjadi proses yang alami sebagaimana anak kecil belajar bahasa.
+The project combines educational research, structured learning paths, and interactive web technology into one unified platform.
 
 ---
 
-# 🎯 Visi
+# Vision
 
-> **Menciptakan metode membaca Arab Gundul modern yang mudah, sistematis, visual, interaktif, dan dapat dipelajari siapa saja tanpa harus menghafal ribuan kaidah di awal.**
-
----
-
-# 🚀 Misi
-
-- Menghilangkan ketakutan belajar Arab Gundul.
-- Mengubah proses belajar menjadi menyenangkan.
-- Membangun kemampuan membaca melalui Pattern Recognition.
-- Membuat kurikulum yang dapat digunakan di sekolah, pesantren, kampus, dan platform digital.
+Create the world's largest open-source Arabic Pattern Learning ecosystem.
 
 ---
 
-# 🧠 Filosofi Belajar
+# Mission
 
-Kebanyakan buku mengajarkan seperti ini:
+✅ Free Education
+
+✅ Open Documentation
+
+✅ Interactive Learning
+
+✅ Community Collaboration
+
+✅ AI Ready
+
+---
+
+# Features
+
+✔ Pattern Recognition Learning
+
+✔ Progressive Learning Matrix
+
+✔ Interactive Lessons
+
+✔ Vocabulary Builder
+
+✔ Grammar Mapping
+
+✔ GitHub Pages
+
+✔ Responsive Design
+
+✔ Offline Learning
+
+✔ Open Source
+
+✔ Research Friendly
+
+---
+
+# Learning Framework
 
 ```
-Huruf
-↓
-
-Harakat
+Arabic
 
 ↓
 
-Nahwu
+Letters
 
 ↓
 
-Sharaf
-
-↓
-
-Baru Membaca
-```
-
-Metode APRS membalik proses tersebut.
-
-```
-Melihat
-
-↓
-
-Mengenali
-
-↓
-
-Mengulang
-
-↓
-
-Membaca
-
-↓
-
-Memahami
-
-↓
-
-Nahwu
-
-↓
-
-Sharaf
-
-↓
-
-I'rab
-```
-
-Otak lebih cepat mengenali pola daripada menghafal aturan.
-
----
-
-# 📖 Struktur Kurikulum
-
-## 🟢 FOUNDATION
-
-### Level 1
-Visual Alphabet
-
-### Level 2
-Visual Word Recognition
-
-### Level 3
-Word Chunk
-
-### Level 4
-Word Family
-
-### Level 5
-Root Recognition
-
----
-
-## 🟡 PATTERN
-
-### Level 6
-Sentence Pattern
-
-### Level 7
-Phrase Pattern
-
-### Level 8
-Reading Pattern
-
-### Level 9
-Paragraph Pattern
-
-### Level 10
-Story Reading
-
----
-
-## 🟠 INTERMEDIATE
-
-- Nahwu Visual
-- Sharaf Visual
-- Kitab Pattern
-- Hadits Pattern
-- Qur'an Pattern
-
----
-
-## 🔴 ADVANCED
-
-- Free Reading
-- Kitab Kuning
-- Tafsir
-- Fiqih
-- Ushul Fiqih
-- Aqidah
-- Balaghah
-
----
-
-# 📚 Struktur Setiap Modul
-
-Setiap modul memiliki format yang konsisten.
-
-```
-Mission
-
-↓
-
-Brain Science
-
-↓
-
-Visual Pattern
+Patterns
 
 ↓
 
@@ -196,413 +115,232 @@ Vocabulary
 
 ↓
 
-Word Family
+Sentence
 
 ↓
 
-Root
+Grammar
 
 ↓
 
-Sentence Pattern
+Reading
 
 ↓
 
-Pattern Drill
+Fluency
 
 ↓
 
-Speed Reading
+Mastery
+```
 
-↓
+---
+
+# Project Structure
+
+```text
+Arabic_Pattern/
+
+assets/
+
+docs/
+
+examples/
+
+lessons/
+
+quiz/
+
+audio/
+
+video/
+
+.github/
+
+README.md
+
+LICENSE
+
+ROADMAP.md
+
+CHANGELOG.md
+
+SECURITY.md
+
+CONTRIBUTING.md
+```
+
+---
+
+# Documentation
+
+| Document | Description |
+|----------|-------------|
+| Introduction | Project overview |
+| Learning Path | Complete roadmap |
+| Lessons | Pattern lessons |
+| Matrix | Arabic Pattern Matrix |
+| Grammar | Arabic Grammar |
+| Vocabulary | Vocabulary system |
+| Research | Academic references |
+| FAQ | Frequently asked questions |
+
+---
+
+# Live Demo
+
+GitHub Pages
+
+Interactive Learning
+
+Documentation
+
+Pattern Matrix
 
 Quiz
 
-↓
-
-Review
-
-↓
-
-Level Up
-```
+Coming Soon
 
 ---
 
-# 🧠 Metode Pembelajaran
+# Roadmap
 
-## 1. Visual Recognition
+## Version 1
 
-Belajar melihat.
+- Core Framework
 
-```
-الله
+- Documentation
 
-الله
+- GitHub Pages
 
-الله
-```
+- Pattern Matrix
 
 ---
 
-## 2. Pattern Recognition
+## Version 2
 
-Belajar mengenali bentuk.
+- Audio Learning
 
-```
-كتب
+- Quiz Engine
 
-دخل
+- Flashcards
 
-خرج
-
-جلس
-```
+- Vocabulary Builder
 
 ---
 
-## 3. Root Recognition
+## Version 3
 
-Belajar keluarga kata.
+- AI Reading Assistant
 
-```
-كتب
+- OCR
 
-↓
+- Pronunciation
 
-كتاب
-
-↓
-
-كاتب
-
-↓
-
-مكتبة
-
-↓
-
-مكتب
-
-↓
-
-مكتوب
-```
+- Teacher Dashboard
 
 ---
 
-## 4. Sentence Pattern
+## Version 4
 
-Belajar membaca kalimat.
+- Mobile Application
 
-```
-قال الله
+- API
 
-دخل المسجد
+- Dataset
 
-قرأ القرآن
-
-كتب الطالب
-```
+- Certification
 
 ---
 
-## 5. Reading Pattern
+# Repository Status
 
-Belajar membaca paragraf.
-
----
-
-## 6. Kitab Reading
-
-Belajar membaca kitab tanpa harakat.
-
----
-
-# 📚 Database
-
-Project ini akan memiliki database besar.
-
-## 🌳 Root Word
-
-- 300 Root
+| Module | Status |
+|---------|--------|
+| Documentation | ✅ |
+| Matrix | ✅ |
+| Lessons | 🚧 |
+| Audio | 🚧 |
+| Quiz | 🚧 |
+| AI | 📅 |
+| Mobile | 📅 |
 
 ---
 
-## 📖 Vocabulary
+# Why Open Source?
 
-- 3000 Kata
+Knowledge grows faster when shared.
 
----
-
-## 📝 Phrase
-
-- 5000 Frasa
+Arabic Pattern™ is developed as an open educational framework so everyone can learn, improve, and contribute.
 
 ---
 
-## 📄 Sentence
+# Contributing
 
-- 10000 Kalimat
+We welcome contributions.
 
----
+Please read:
 
-## 📚 Paragraph
-
-- 1000 Paragraf
+CONTRIBUTING.md
 
 ---
 
-## 📖 Story
+# Community
 
-- 500 Cerita Pendek
+Discussion
 
----
+Issues
 
-## 📜 Kitab
+Wiki
 
-- 100 Kitab Pilihan
+Projects
 
----
-
-# 🎮 Gamification
-
-Setiap level mempunyai:
-
-🥉 Bronze
-
-🥈 Silver
-
-🥇 Gold
-
-👑 Master
+Pull Requests
 
 ---
 
-Setiap peserta memperoleh:
+# Sponsors
 
-- XP
-- Badge
-- Achievement
-- Daily Mission
-- Weekly Challenge
+Arabic Pattern™ is community-supported.
 
----
+If this project helps you,
 
-# 🧠 Brain Learning System
-
-Metode ini dibangun berdasarkan prinsip:
-
-✅ Pattern Recognition
-
-✅ Chunk Learning
-
-✅ Active Recall
-
-✅ Visual Memory
-
-✅ Retrieval Practice
-
-✅ Spaced Repetition
-
-✅ Progressive Reading
-
----
-
-# 📱 Roadmap
-
-## Buku
-
-- [ ] Volume 1
-- [ ] Volume 2
-- [ ] Workbook
-- [ ] Flash Card
-- [ ] Dictionary
-- [ ] Root Atlas
-
----
-
-## Digital
-
-- [ ] Website
-- [ ] Mobile Apps
-- [ ] LMS
-- [ ] Quiz Apps
-
----
-
-## Multimedia
-
-- [ ] Video Course
-- [ ] Audio Native
-- [ ] Interactive Quiz
-- [ ] Animation
-
----
-
-# 📂 Struktur Repository
-
-```
-Arabic-Pattern-Reading-System/
-
-│
-
-├── README.md
-
-├── LICENSE
-
-├── docs/
-
-│   ├── images/
-
-│   ├── infographic/
-
-│   └── presentation/
-
-│
-
-├── modules/
-
-│   ├── Level-01/
-
-│   ├── Level-02/
-
-│   ├── Level-03/
-
-│   ├── Level-04/
-
-│   ├── Level-05/
-
-│   ├── Level-06/
-
-│   ├── Level-07/
-
-│   ├── Level-08/
-
-│   ├── Level-09/
-
-│   └── Level-10/
-
-│
-
-├── workbook/
-
-├── flashcard/
-
-├── dictionary/
-
-├── roots/
-
-├── phrase/
-
-├── sentence/
-
-├── story/
-
-├── quiz/
-
-├── audio/
-
-├── video/
-
-├── assets/
-
-└── references/
-```
-
----
-
-# 🎯 Target Pembaca
-
-- Pemula
-- Santri
-- Mahasiswa
-- Guru Bahasa Arab
-- Guru Tahsin
-- Guru Al-Qur'an
-- Pengajar Pesantren
-- Pengkaji Kitab Kuning
-- Masyarakat Umum
-
----
-
-# 💡 Keunggulan
-
-✅ Visual First
-
-✅ Pattern First
-
-✅ Root First
-
-✅ Sentence First
-
-✅ Reading First
-
-✅ Tidak dimulai dengan teori Nahwu
-
-✅ Interaktif
-
-✅ Mudah dipahami
-
-✅ Bertahap
-
-✅ Berbasis Neuroscience
-
----
-
-# 🤝 Kontribusi
-
-Kontribusi sangat terbuka untuk:
-
-- Koreksi materi
-- Penambahan contoh
-- Penyempurnaan root
-- Penambahan latihan
-- Audio
-- Video
-- Ilustrasi
-- Animasi
-- Pengembangan aplikasi
-
-Silakan lakukan Pull Request atau buat Issue pada repository ini.
-
----
-
-# 📖 Lisensi
-project build with AI
-Project ini menggunakan lisensi **MIT License** sehingga dapat dikembangkan secara terbuka dengan tetap mencantumkan atribusi kepada pengembang.
-
----
-
-# 🌟 Motto
-
-> **"Jangan menghafal Bahasa Arab. Bangunlah pola di dalam otak, maka membaca akan menjadi kebiasaan."**
-
----
-
-## 🧠 Arabic Pattern Reading System™
-
-**Learn Arabic Like Your Brain Naturally Learns**
-
-**From Pattern → To Understanding → To Mastery**
----
-## ❤️ Support Arabic Pattern
-
-Arabic Pattern is an open-source educational project.
-
-If this project helps you learn Arabic,
 please consider supporting future development.
 
-Every contribution helps us create:
+---
 
-📖 New lessons
+# Support Arabic Pattern ❤️
+
+Your contribution helps us build
+
+📖 Lessons
 
 🎙 Audio
 
-🤖 AI tools
+🤖 AI
 
-📱 Mobile Apps
+📚 Documentation
 
-🌍 Free education
+🌍 Free Education
 
-Thank you ❤️
+---
+
+# Citation
+
+If you use Arabic Pattern™ in academic research,
+
+please cite this repository.
+
+---
+
+# License
+
+MIT License
+
+---
+
+<p align="center">
+
+Made with ❤️ for Arabic Education
+
+</p>
