@@ -585,3 +585,24 @@ Project ini menggunakan lisensi **MIT License** sehingga dapat dikembangkan seca
 **Learn Arabic Like Your Brain Naturally Learns**
 
 **From Pattern → To Understanding → To Mastery**
+---
+## ❤️ Support Arabic Pattern
+
+Arabic Pattern is an open-source educational project.
+
+If this project helps you learn Arabic,
+please consider supporting future development.
+
+Every contribution helps us create:
+
+📖 New lessons
+
+🎙 Audio
+
+🤖 AI tools
+
+📱 Mobile Apps
+
+🌍 Free education
+
+Thank you ❤️
